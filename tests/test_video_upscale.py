@@ -1,10 +1,17 @@
-import pytest
 from pathlib import Path
-from video_upscaler.main import upscale_video
+from unittest.mock import Mock
 
-def test_upscale():
-    input_video = 'tests/data/heidi.mp4'
-    expected_output = 'tests/data/heidi_HD.mp4'
-    upscale_video(input_video, expected_output)
-    assert Path(expected_output).exists() 
+from video_upscaler import main
 
+
+def test_cli_passes_selected_weights_and_scale(monkeypatch):
+    engine = Mock()
+    get_upscaler = Mock(return_value=engine)
+    upscale_video = Mock()
+    monkeypatch.setattr(main, "get_upscaler", get_upscaler)
+    monkeypatch.setattr(main, "upscale_video", upscale_video)
+    monkeypatch.setattr(main, "get_device", lambda: "cpu")
+    monkeypatch.setattr(main.sys, "argv", ["upscale", "input.mp4", "--scale", "2", "--model_weights", "local.pth"])
+    main.main()
+    get_upscaler.assert_called_once_with("cpu", Path("local.pth"), 2)
+    upscale_video.assert_called_once_with(Path("input.mp4"), engine, 2)

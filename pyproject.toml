@@ -7,19 +7,22 @@ license = "MIT"
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.10"
-av = "^11.0.0"
-torch = "^2.1.2"
-realesrgan = {git = "https://github.com/sberbank-ai/Real-ESRGAN.git"}
-torchvision = "^0.16.2"
-torchaudio = "^2.1.2"
+python = ">=3.12,!=3.14.1,<4.0"
+av = "^19.0.2"
+torch = "^2.14.1"
+spandrel = "^0.4.2"
+huggingface-hub = "^2.3.0"
+numpy = "^2.5.4"
+pillow = "^13.0.0"
+torchvision = "^0.29.1"
+torchaudio = "^2.11.0"
 tqdm = "^4.66.1"
 
 [tool.poetry.scripts]
 upscale = "video_upscaler.main:main"
 
 [tool.poetry.group.dev.dependencies]
-pytest = "^7.4.4"
+pytest = "^9.2.0"
 flake8 = "^7.0.0"
 
 [build-system]
